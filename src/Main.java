@@ -1,94 +1,106 @@
 import java.util.Scanner;
 
-public class Main {
+    public class Main {
+        public static void main(String[] args) {
 
-    public static void main(String[] args) {
+            Scanner leitura = new Scanner(System.in);
 
-        Scanner leitura = new Scanner(System.in);
-        Cadastro cadastro = new Cadastro();
+            Pessoa[] pessoas = new Pessoa[100];
+            int quantidadePessoas = 0;
 
-        boolean executando = true;
+            System.out.println("==============");
+            System.out.println("Seja bem-vindo(a) ao Sistema de consulta do cidadão (SCC)");
+            System.out.println("==============");
 
-        while (executando) {
+            int opcao;
 
-            System.out.println("\n==============================");
-            System.out.println("       GOV REGISTRY");
-            System.out.println("==============================");
-            System.out.println("1 - Cadastrar cidadão");
-            System.out.println("2 - Consultar cidadão");
-            System.out.println("3 - Listar cidadãos");
-            System.out.println("4 - Remover cidadão");
+            do {
+            System.out.println("1 - Cadastrar");
+            System.out.println("2 - Consultar");
             System.out.println("0 - Sair");
-            System.out.print("Escolha uma opção: ");
 
-            int opcao = leitura.nextInt();
+            opcao = leitura.nextInt();
             leitura.nextLine();
 
-            switch (opcao) {
-
-                case 1:
-
-                    Pessoa pessoa = new Pessoa();
-
-                    System.out.print("Nome: ");
-                    pessoa.nome = leitura.nextLine();
-
-                    System.out.print("CPF: ");
-                    pessoa.cpf = leitura.nextLine();
-
-                    System.out.print("Idade: ");
-                    pessoa.idade = leitura.nextInt();
-                    leitura.nextLine();
-
-                    if (cadastro.cadastrar(pessoa)) {
-                        System.out.println("\n✅ Cidadão cadastrado com sucesso!");
-                    } else {
-                        System.out.println("\n❌ CPF já cadastrado.");
-                    }
-
-                    break;
-
-                case 2:
-
-                    System.out.print("Digite o CPF: ");
-                    String cpf = leitura.nextLine();
-
-                    cadastro.consultar(cpf);
-
-                    break;
-
-                case 3:
-
-                    cadastro.listar();
-
-                    break;
-
-                case 4:
-
-                    System.out.print("Digite o CPF para remover: ");
-                    String cpfRemover = leitura.nextLine();
-
-                    cadastro.remover(cpfRemover);
-
-                    break;
-
-                case 0:
-
-                    executando = false;
-                    System.out.println("Encerrando sistema...");
-
-                    break;
-
-                default:
-
-                    System.out.println("Opção inválida.");
-
+            if (opcao == 1) {
+                quantidadePessoas = cadastrar(
+                        leitura,
+                        pessoas,
+                        quantidadePessoas
+                );
+            } else if (opcao == 2) {
+                consultar(
+                        leitura,
+                        pessoas,
+                        quantidadePessoas
+                );
             }
 
+
+            } while (opcao != 0);
+
+            leitura.close(); }
+
+
+        public static int cadastrar(
+                Scanner leitura,
+                Pessoa[] pessoas,
+                int quantidadePessoas) {
+
+            Pessoa pessoa = new Pessoa();
+
+            System.out.println("Nome completo:");
+            pessoa.nome = leitura.nextLine();
+
+            System.out.println("CPF:");
+            pessoa.cpf = leitura.nextLine();
+
+            System.out.println("Dia de nascimento:");
+            pessoa.diaNascimento = leitura.nextInt();
+
+            System.out.println("Mês de nascimento:");
+            pessoa.mesNascimento = leitura.nextInt();
+
+            System.out.println("Ano de nascimento:");
+            pessoa.anoNascimento = leitura.nextInt();
+
+            leitura.nextLine();
+
+            pessoas[quantidadePessoas] = pessoa;
+
+            quantidadePessoas++;
+
+            return quantidadePessoas;
         }
 
-        leitura.close();
 
+        public static void consultar(
+                Scanner leitura,
+                Pessoa[] pessoas,
+                int quantidadePessoas) {
+
+            System.out.println("Digite o CPF:");
+            String cpf = leitura.nextLine();
+
+        for (int i = 0; i < quantidadePessoas; i++) {
+
+        if (pessoas[i].cpf.equals(cpf)) {
+
+            System.out.println("==============");
+            System.out.println("Cidadão encontrado");
+            System.out.println("==============");
+
+            System.out.println("Nome: " + pessoas[i].nome);
+            System.out.println("CPF: " + pessoas[i].cpf);
+            System.out.println("Data de nascimento: "
+                    + pessoas[i].diaNascimento + "/"
+                    + pessoas[i].mesNascimento + "/"
+                    + pessoas[i].anoNascimento);
+
+            return;
+            }
+        }
+
+            System.out.println("Cidadão não encontrado.");
     }
-
 }

@@ -1,7 +1,9 @@
-    public class Pessoa {
+public class Pessoa {
 
     String nome;
     String cpf;
-    int idade;
+    int diaNascimento;
+    int mesNascimento;
+    int anoNascimento;
 
-    }
+}
